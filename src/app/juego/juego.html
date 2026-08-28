@@ -1,0 +1,235 @@
+<div class="pagina-juego">
+
+  <!-- ======================================
+       ENCABEZADO
+  ======================================= -->
+
+  <section class="encabezado-juego">
+
+    <div class="contenido-encabezado">
+
+      <p class="subtitulo">
+        RESTAURANTE MANILA
+      </p>
+
+      <h1>
+        🎮 Juego de Parejas
+      </h1>
+
+      <p class="descripcion">
+
+        Pon a prueba tu memoria y encuentra las parejas
+        de nuestras mejores comidas y bebidas.
+
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- ======================================
+       INFORMACIÓN DEL JUEGO
+  ======================================= -->
+
+  <section class="panel-juego">
+
+    <div class="estadistica">
+
+      <span>Intentos</span>
+
+      <strong>
+        {{ intentos }}
+      </strong>
+
+    </div>
+
+
+    <div class="estadistica">
+
+      <span>Parejas encontradas</span>
+
+      <strong>
+        {{ parejasEncontradas }} / 8
+      </strong>
+
+    </div>
+
+
+    <button
+      class="boton-nuevo"
+      (click)="nuevoJuego()"
+    >
+
+      🔄 Nuevo juego
+
+    </button>
+
+  </section>
+
+
+  <!-- ======================================
+       INSTRUCCIONES
+  ======================================= -->
+
+  <div class="instrucciones">
+
+    <span>🍽️</span>
+
+    <p>
+      Encuentra las 8 parejas de comidas y bebidas.
+      Haz clic sobre dos cartas para descubrirlas.
+    </p>
+
+  </div>
+
+
+  <!-- ======================================
+       TABLERO 4 x 4
+  ======================================= -->
+
+  <main class="tablero">
+
+    @for (carta of cartas; track carta.id) {
+
+      <div
+        class="carta"
+
+        [class.volteada]="
+          carta.volteada || carta.encontrada
+        "
+
+        [class.encontrada]="
+          carta.encontrada
+        "
+
+        (click)="voltearCarta(carta)"
+      >
+
+
+        <!-- =================================
+             PARTE TRASERA DE LA CARTA
+        ================================== -->
+
+        <div class="cara trasera">
+
+          <div class="logo-carta">
+            🍴
+          </div>
+
+          <h3>
+            MANILA
+          </h3>
+
+          <span>
+            Descubre
+          </span>
+
+        </div>
+
+
+        <!-- =================================
+             PARTE FRONTAL DE LA CARTA
+        ================================== -->
+
+        <div class="cara frontal">
+
+          <img
+            [src]="carta.imagen"
+            [alt]="carta.nombre"
+          />
+
+
+          <div class="nombre-carta">
+
+            <strong>
+              {{ carta.nombre }}
+            </strong>
+
+            <small>
+
+              @if (carta.tipo === 'comida') {
+                🍽️ Comida
+              }
+
+              @if (carta.tipo === 'bebida') {
+                🍹 Bebida
+              }
+
+            </small>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </main>
+
+
+  <!-- ======================================
+       MENSAJE DE VICTORIA
+  ======================================= -->
+
+  @if (ganaste) {
+
+    <div class="fondo-ganador">
+
+      <div class="mensaje-ganador">
+
+        <div class="trofeo">
+          🏆
+        </div>
+
+        <h2>
+          ¡Felicidades!
+        </h2>
+
+        <p>
+          Encontraste todas las parejas de Manila.
+        </p>
+
+        <div class="resultado">
+
+          <span>
+            Parejas encontradas
+          </span>
+
+          <strong>
+            8 / 8
+          </strong>
+
+        </div>
+
+
+        <div class="resultado">
+
+          <span>
+            Intentos realizados
+          </span>
+
+          <strong>
+            {{ intentos }}
+          </strong>
+
+        </div>
+
+
+        <button
+          class="boton-jugar"
+          (click)="nuevoJuego()"
+        >
+
+          🔄 Jugar nuevamente
+
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,270 @@
+<div class="pagina-comidas">
+
+  <section class="encabezado" id="top">
+    <div>
+      <p class="subtitulo">Descubre nuestros sabores</p>
+      <h1>Las mejores comidas</h1>
+      <p class="descripcion">
+        Disfruta de una selección de deliciosas comidas preparadas con los
+        mejores ingredientes.
+      </p>
+    </div>
+  </section>
+
+  <section class="filtros">
+    <div class="buscadores">
+      <div class="buscador buscador-nombre">
+        <span>🔍</span>
+        <input
+          type="text"
+          placeholder="Buscar una comida por nombre..."
+          [(ngModel)]="nombreBuscado"
+          (ngModelChange)="onBuscarNombre($event)"
+        />
+      </div>
+
+      <div class="buscador buscador-ingredientes">
+        <span>🔎</span>
+        <input
+          type="text"
+          placeholder="Buscar una comida por ingredientes..."
+          [(ngModel)]="ingredienteBuscado"
+          (ngModelChange)="onBuscarIngrediente($event)"
+        />
+      </div>
+    </div>
+
+    <div class="categorias">
+      <a class="categoria" [class.activa]="categoriaActiva === 'Todas'" href="#top"
+         (click)="filtrarCategoria('Todas'); limpiarBusqueda()">Todas</a>
+      <a class="categoria" [class.activa]="categoriaActiva === 'Desayuno'" href="#desayunos"
+         (click)="filtrarCategoria('Desayuno'); limpiarBusqueda()">Desayuno</a>
+      <a class="categoria" [class.activa]="categoriaActiva === 'Almuerzo'" href="#almuerzos"
+         (click)="filtrarCategoria('Almuerzo'); limpiarBusqueda()">Almuerzo</a>
+      <a class="categoria" [class.activa]="categoriaActiva === 'Cena'" href="#cenas"
+         (click)="filtrarCategoria('Cena'); limpiarBusqueda()">Cena</a>
+      <a class="categoria" [class.activa]="categoriaActiva === 'Postre'" href="#postres"
+         (click)="filtrarCategoria('Postre'); limpiarBusqueda()">Postres</a>
+    </div>
+  </section>
+
+  <p *ngIf="error">{{ error }}</p>
+  <div *ngIf="cargando" class="cargando">Cargando comidas...</div>
+
+  <!-- RESULTADOS DE BÚSQUEDA (nombre o ingrediente) -->
+  <main *ngIf="resultadosBusqueda !== null" class="contenido">
+    <section class="grupo-comidas">
+      <div class="titulo-categoria">
+        <h2>Resultados de búsqueda</h2>
+        <span>{{ resultadosBusqueda.length }} comidas</span>
+      </div>
+
+      <div class="grid-comidas" *ngIf="resultadosBusqueda.length; else sinResultados">
+        <article class="tarjeta-comida" *ngFor="let comida of resultadosBusqueda">
+          <img [src]="comida.strMealThumb" [alt]="comida.strMeal" />
+          <div class="informacion-comida">
+            <span class="etiqueta">{{ comida.categoriaTienda }}</span>
+            <h3>{{ comida.strMeal }}</h3>
+
+            <div class="parte-inferior">
+              <strong class="precio">${{ comida.precio | number:'1.0-0' }}</strong>
+              <button class="boton-ver" (click)="verDetalles(comida.idMeal)">
+                {{ detalleSeleccionado?.idMeal === comida.idMeal ? 'Ocultar' : 'Ver Detalles' }}
+              </button>
+              <button
+                class="boton-ver"
+                (click)="agregarAlCarrito({ id: comida.idMeal, tipo: 'comida', nombre: comida.strMeal, precio: comida.precio, imagen: comida.strMealThumb })"
+              >
+                Añadir Carrito
+              </button>
+            </div>
+
+            <div class="detalle-comida" *ngIf="idDetalleSolicitado === comida.idMeal">
+              <p *ngIf="cargandoDetalle">Cargando detalles...</p>
+              <p *ngIf="errorDetalle">{{ errorDetalle }}</p>
+              <ng-container *ngIf="detalleSeleccionado">
+                <p>{{ detalleSeleccionado.strInstructions }}</p>
+                <ul>
+                  <li *ngFor="let ing of obtenerIngredientesDetalle(detalleSeleccionado)">
+                    {{ ing.medida }} {{ ing.nombre }}
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+      <ng-template #sinResultados>
+        <p>No se encontraron comidas.</p>
+      </ng-template>
+    </section>
+  </main>
+
+  <!-- LISTADO POR CATEGORÍAS -->
+  <main *ngIf="resultadosBusqueda === null && !cargando" class="contenido">
+
+    <section class="grupo-comidas" id="desayunos">
+      <div class="titulo-categoria">
+        <h2>Desayunos</h2>
+        <span>{{ comidasPorCategoria['Desayuno'].length }} comidas</span>
+      </div>
+      <div class="grid-comidas">
+        <article class="tarjeta-comida" *ngFor="let comida of comidasPorCategoria['Desayuno']">
+          <img [src]="comida.strMealThumb" [alt]="comida.strMeal" />
+          <div class="informacion-comida">
+            <span class="etiqueta">Desayuno</span>
+            <h3>{{ comida.strMeal }}</h3>
+            <div class="parte-inferior">
+              <strong class="precio">${{ comida.precio | number:'1.0-0' }}</strong>
+              <button class="boton-ver" (click)="verDetalles(comida.idMeal)">
+                {{ detalleSeleccionado?.idMeal === comida.idMeal ? 'Ocultar' : 'Ver Detalles' }}
+              </button>
+              <button
+                class="boton-ver"
+                (click)="agregarAlCarrito({ id: comida.idMeal, tipo: 'comida', nombre: comida.strMeal, precio: comida.precio, imagen: comida.strMealThumb })"
+              >
+                Añadir Carrito
+              </button>
+            </div>
+            <div class="detalle-comida" *ngIf="idDetalleSolicitado === comida.idMeal">
+              <p *ngIf="cargandoDetalle">Cargando detalles...</p>
+              <p *ngIf="errorDetalle">{{ errorDetalle }}</p>
+              <ng-container *ngIf="detalleSeleccionado">
+                <p>{{ detalleSeleccionado.strInstructions }}</p>
+                <ul>
+                  <li *ngFor="let ing of obtenerIngredientesDetalle(detalleSeleccionado)">
+                    {{ ing.medida }} {{ ing.nombre }}
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grupo-comidas" id="almuerzos">
+      <div class="titulo-categoria">
+        <h2>Almuerzos</h2>
+        <span>{{ comidasPorCategoria['Almuerzo'].length }} comidas</span>
+      </div>
+      <div class="grid-comidas">
+        <article class="tarjeta-comida" *ngFor="let comida of comidasPorCategoria['Almuerzo']">
+          <img [src]="comida.strMealThumb" [alt]="comida.strMeal" />
+          <div class="informacion-comida">
+            <span class="etiqueta">Almuerzo</span>
+            <h3>{{ comida.strMeal }}</h3>
+            <div class="parte-inferior">
+              <strong class="precio">${{ comida.precio | number:'1.0-0' }}</strong>
+              <button class="boton-ver" (click)="verDetalles(comida.idMeal)">
+                {{ detalleSeleccionado?.idMeal === comida.idMeal ? 'Ocultar' : 'Ver Detalles' }}
+              </button>
+              <button
+                class="boton-ver"
+                (click)="agregarAlCarrito({ id: comida.idMeal, tipo: 'comida', nombre: comida.strMeal, precio: comida.precio, imagen: comida.strMealThumb })"
+              >
+                Añadir Carrito
+              </button>
+            </div>
+            <div class="detalle-comida" *ngIf="idDetalleSolicitado === comida.idMeal">
+              <p *ngIf="cargandoDetalle">Cargando detalles...</p>
+              <p *ngIf="errorDetalle">{{ errorDetalle }}</p>
+              <ng-container *ngIf="detalleSeleccionado">
+                <p>{{ detalleSeleccionado.strInstructions }}</p>
+                <ul>
+                  <li *ngFor="let ing of obtenerIngredientesDetalle(detalleSeleccionado)">
+                    {{ ing.medida }} {{ ing.nombre }}
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grupo-comidas" id="cenas">
+      <div class="titulo-categoria">
+        <h2>Cenas</h2>
+        <span>{{ comidasPorCategoria['Cena'].length }} comidas</span>
+      </div>
+      <div class="grid-comidas">
+        <article class="tarjeta-comida" *ngFor="let comida of comidasPorCategoria['Cena']">
+          <img [src]="comida.strMealThumb" [alt]="comida.strMeal" />
+          <div class="informacion-comida">
+            <span class="etiqueta">Cena</span>
+            <h3>{{ comida.strMeal }}</h3>
+            <div class="parte-inferior">
+              <strong class="precio">${{ comida.precio | number:'1.0-0' }}</strong>
+              <button class="boton-ver" (click)="verDetalles(comida.idMeal)">
+                {{ detalleSeleccionado?.idMeal === comida.idMeal ? 'Ocultar' : 'Ver Detalles' }}
+              </button>
+              <button
+                class="boton-ver"
+                (click)="agregarAlCarrito({ id: comida.idMeal, tipo: 'comida', nombre: comida.strMeal, precio: comida.precio, imagen: comida.strMealThumb })"
+                  >
+                Añadir Carrito
+              </button>
+            </div>
+            <div class="detalle-comida" *ngIf="idDetalleSolicitado === comida.idMeal">
+              <p *ngIf="cargandoDetalle">Cargando detalles...</p>
+              <p *ngIf="errorDetalle">{{ errorDetalle }}</p>
+              <ng-container *ngIf="detalleSeleccionado">
+                <p>{{ detalleSeleccionado.strInstructions }}</p>
+                <ul>
+                  <li *ngFor="let ing of obtenerIngredientesDetalle(detalleSeleccionado)">
+                    {{ ing.medida }} {{ ing.nombre }}
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="grupo-comidas" id="postres">
+      <div class="titulo-categoria">
+        <h2>Postres</h2>
+        <span>{{ comidasPorCategoria['Postre'].length }} comidas</span>
+      </div>
+      <div class="grid-comidas">
+        <article class="tarjeta-comida" *ngFor="let comida of comidasPorCategoria['Postre']">
+          <img [src]="comida.strMealThumb" [alt]="comida.strMeal" />
+          <div class="informacion-comida">
+            <span class="etiqueta">Postre</span>
+            <h3>{{ comida.strMeal }}</h3>
+            <div class="parte-inferior">
+              <strong class="precio">${{ comida.precio | number:'1.0-0' }}</strong>
+              <button class="boton-ver" (click)="verDetalles(comida.idMeal)">
+                {{ detalleSeleccionado?.idMeal === comida.idMeal ? 'Ocultar' : 'Ver Detalles' }}
+              </button>
+              <button
+                class="boton-ver"
+               (click)="agregarAlCarrito({ id: comida.idMeal, tipo: 'comida', nombre: comida.strMeal, precio: comida.precio, imagen: comida.strMealThumb })"
+              >
+                Añadir Carrito
+              </button>
+            </div>
+            <div class="detalle-comida" *ngIf="idDetalleSolicitado === comida.idMeal">
+              <p *ngIf="cargandoDetalle">Cargando detalles...</p>
+              <p *ngIf="errorDetalle">{{ errorDetalle }}</p>
+              <ng-container *ngIf="detalleSeleccionado">
+                <p>{{ detalleSeleccionado.strInstructions }}</p>
+                <ul>
+                  <li *ngFor="let ing of obtenerIngredientesDetalle(detalleSeleccionado)">
+                    {{ ing.medida }} {{ ing.nombre }}
+                  </li>
+                </ul>
+              </ng-container>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+  <button type="button" class="boton-arriba" aria-label="Volver arriba" (click)="volverArriba()">
+    ↑
+  </button>
+</div>

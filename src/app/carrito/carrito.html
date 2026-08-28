@@ -1,0 +1,118 @@
+<div class="pagina-carrito">
+
+  <section class="encabezado">
+    <div>
+      <p class="subtitulo">Tu selección</p>
+      <h1>Carrito de compras</h1>
+      <p class="descripcion" *ngIf="items.length > 0">
+        Revisa tus bebidas antes de finalizar el pedido.
+      </p>
+    </div>
+  </section>
+
+  <main class="contenido-carrito">
+
+    <div class="carrito-vacio" *ngIf="items.length === 0">
+      <span class="icono-vacio">🛒</span>
+      <h2>Tu carrito está vacío</h2>
+      <p>Agrega algunas bebidas para empezar tu pedido.</p>
+      <button class="boton-primario" (click)="seguirComprando()">Ver bebidas</button>
+    </div>
+
+    <div class="carrito-con-items" *ngIf="items.length > 0">
+
+      <div class="columna-izquierda">
+
+        <div class="lista-items">
+          <article class="item-carrito" *ngFor="let item of items">
+            <img [src]="item.imagen" [alt]="item.nombre" />
+
+            <div class="info-item">
+              <h3>{{ item.nombre }}</h3>
+              <span class="precio-unitario">${{ item.precio | number:'1.0-0' }} c/u</span>
+            </div>
+
+            <div class="control-cantidad">
+              <button class="boton-cantidad" (click)="disminuirCantidad(item)" aria-label="Disminuir cantidad">−</button>
+              <span class="cantidad">{{ item.cantidad }}</span>
+              <button class="boton-cantidad" (click)="aumentarCantidad(item)" aria-label="Aumentar cantidad">+</button>
+            </div>
+
+            <strong class="precio-total-item">${{ item.precio * item.cantidad | number:'1.0-0' }}</strong>
+
+            <button class="boton-eliminar" (click)="eliminarItem(item.id, item.tipo)" aria-label="Eliminar bebida">🗑</button>
+          </article>
+        </div>
+
+        <section class="datos-cliente">
+          <h2>Datos del cliente</h2>
+          <p class="ayuda-cliente">Necesitamos estos datos para generar tu factura.</p>
+
+          <div class="grid-formulario">
+            <div class="campo">
+              <label for="nombre">Nombre completo</label>
+              <input id="nombre" type="text" [(ngModel)]="cliente.nombre" placeholder="Ej: Juan Pérez" />
+              <span class="error-campo" *ngIf="mostrarErroresCliente && !cliente.nombre.trim()">Requerido</span>
+            </div>
+
+            <div class="campo">
+              <label for="documento">Documento de identidad</label>
+              <input id="documento" type="text" [(ngModel)]="cliente.documento" placeholder="Ej: 1020304050" />
+              <span class="error-campo" *ngIf="mostrarErroresCliente && !cliente.documento.trim()">Requerido</span>
+            </div>
+
+            <div class="campo">
+              <label for="correo">Correo electrónico</label>
+              <input id="correo" type="email" [(ngModel)]="cliente.correo" placeholder="Ej: correo@ejemplo.com" />
+              <span class="error-campo" *ngIf="mostrarErroresCliente && !cliente.correo.trim()">Requerido</span>
+            </div>
+
+            <div class="campo">
+              <label for="telefono">Teléfono</label>
+              <input id="telefono" type="tel" [(ngModel)]="cliente.telefono" placeholder="Ej: 3001234567" />
+              <span class="error-campo" *ngIf="mostrarErroresCliente && !cliente.telefono.trim()">Requerido</span>
+            </div>
+
+            <div class="campo campo-ancho">
+              <label for="direccion">Dirección de entrega</label>
+              <input id="direccion" type="text" [(ngModel)]="cliente.direccion" placeholder="Ej: Calle 10 # 20-30" />
+              <span class="error-campo" *ngIf="mostrarErroresCliente && !cliente.direccion.trim()">Requerido</span>
+            </div>
+          </div>
+
+          <p class="error-general" *ngIf="mostrarErroresCliente && !clienteValido">
+            Completa todos los datos correctamente para generar la factura.
+          </p>
+        </section>
+
+      </div>
+
+      <aside class="resumen-pedido">
+        <h2>Resumen del pedido</h2>
+
+        <div class="fila-resumen">
+          <span>productos ({{ totalItems }})</span>
+          <span>${{ subtotal | number:'1.0-0' }}</span>
+        </div>
+
+        <div class="fila-resumen total">
+          <span>Total</span>
+          <span>${{ subtotal | number:'1.0-0' }}</span>
+        </div>
+
+        <button class="boton-primario" (click)="descargarFactura()">
+          📄 Descargar factura PDF
+        </button>
+
+        <p class="confirmacion-factura" *ngIf="facturaGenerada">
+          ✅ Factura {{ numeroFactura }} descargada.
+        </p>
+
+        <button class="boton-secundario" (click)="seguirComprando()">Seguir comprando</button>
+        <button class="boton-vaciar" (click)="vaciarCarrito()">Vaciar carrito</button>
+      </aside>
+
+    </div>
+
+  </main>
+</div>

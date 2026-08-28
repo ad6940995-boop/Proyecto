@@ -1,0 +1,910 @@
+/* ==========================================
+   CONTENEDOR PRINCIPAL
+========================================== */
+
+.pagina-juego {
+
+  min-height: 100vh;
+
+  background: #f7f3ed;
+
+  padding-bottom: 60px;
+
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+/* ==========================================
+   ENCABEZADO
+========================================== */
+
+.encabezado-juego {
+
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url('https://www.themealdb.com/images/media/meals/1550440197.jpg');
+
+  background-size: cover;
+
+  background-position: center;
+
+  min-height: 300px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  text-align: center;
+
+  color: white;
+
+  padding: 40px 20px;
+
+}
+
+
+.contenido-encabezado {
+
+  max-width: 750px;
+
+}
+
+
+.subtitulo {
+
+  font-size: 14px;
+
+  letter-spacing: 3px;
+
+  font-weight: bold;
+
+  margin-bottom: 10px;
+
+}
+
+
+.encabezado-juego h1 {
+
+  font-size: 48px;
+
+  margin: 0 0 15px;
+
+  font-weight: bold;
+
+}
+
+
+.descripcion {
+
+  font-size: 18px;
+
+  line-height: 1.6;
+
+  margin: 0;
+
+}
+
+
+/* ==========================================
+   PANEL DE INFORMACIÓN
+========================================== */
+
+.panel-juego {
+
+  width: min(850px, 92%);
+
+  margin: -35px auto 25px;
+
+  position: relative;
+
+  z-index: 5;
+
+  background: white;
+
+  border-radius: 16px;
+
+  padding: 20px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.12);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 25px;
+
+  flex-wrap: wrap;
+
+}
+
+
+.estadistica {
+
+  min-width: 130px;
+
+  text-align: center;
+
+}
+
+
+.estadistica span {
+
+  display: block;
+
+  color: #777;
+
+  font-size: 13px;
+
+  margin-bottom: 5px;
+
+}
+
+
+.estadistica strong {
+
+  display: block;
+
+  color: #713b1f;
+
+  font-size: 25px;
+
+}
+
+
+/* ==========================================
+   BOTÓN NUEVO JUEGO
+========================================== */
+
+.boton-nuevo {
+
+  border: none;
+
+  background: #8b4513;
+
+  color: white;
+
+  padding: 13px 22px;
+
+  border-radius: 9px;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+
+.boton-nuevo:hover {
+
+  background: #642e0d;
+
+  transform: translateY(-2px);
+
+}
+
+
+/* ==========================================
+   INSTRUCCIONES
+========================================== */
+
+.instrucciones {
+
+  width: min(650px, 90%);
+
+  margin: 0 auto 25px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 10px;
+
+  background: #fff8ed;
+
+  border: 1px solid #ead5bc;
+
+  border-radius: 10px;
+
+  padding: 12px 18px;
+
+  color: #65452e;
+
+}
+
+
+.instrucciones span {
+
+  font-size: 25px;
+
+}
+
+
+.instrucciones p {
+
+  margin: 0;
+
+  font-size: 14px;
+
+}
+
+
+/* ==========================================
+   TABLERO
+   4 X 4
+========================================== */
+
+.tablero {
+
+  width: min(720px, 94vw);
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 15px;
+
+}
+
+
+/* ==========================================
+   CARTA
+========================================== */
+
+.carta {
+
+  aspect-ratio: 1 / 1;
+
+  position: relative;
+
+  perspective: 1000px;
+
+  cursor: pointer;
+
+}
+
+
+/* ==========================================
+   CARAS
+========================================== */
+
+.cara {
+
+  position: absolute;
+
+  width: 100%;
+
+  height: 100%;
+
+  top: 0;
+
+  left: 0;
+
+  border-radius: 14px;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+
+  transition:
+    transform 0.5s ease;
+
+  overflow: hidden;
+
+}
+
+
+/* ==========================================
+   PARTE TRASERA
+========================================== */
+
+.trasera {
+
+  background:
+    linear-gradient(
+      135deg,
+      #8b4513,
+      #5d2e16
+    );
+
+  border: 4px solid #d5a06a;
+
+  color: white;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.2);
+
+}
+
+
+.logo-carta {
+
+  width: 60px;
+
+  height: 60px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 32px;
+
+  margin-bottom: 8px;
+
+}
+
+
+.trasera h3 {
+
+  margin: 0;
+
+  font-size: 18px;
+
+  letter-spacing: 2px;
+
+}
+
+
+.trasera span {
+
+  margin-top: 5px;
+
+  font-size: 11px;
+
+  opacity: 0.8;
+
+}
+
+
+/* ==========================================
+   PARTE FRONTAL
+========================================== */
+
+.frontal {
+
+  background: white;
+
+  border: 3px solid #d5a06a;
+
+  transform:
+    rotateY(180deg);
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-end;
+
+}
+
+
+.frontal img {
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+}
+
+
+/* ==========================================
+   NOMBRE DE CARTA
+========================================== */
+
+.nombre-carta {
+
+  position: relative;
+
+  z-index: 2;
+
+  width: 100%;
+
+  padding: 25px 8px 8px;
+
+  background:
+    linear-gradient(
+      transparent,
+      rgba(0, 0, 0, 0.85)
+    );
+
+  color: white;
+
+  text-align: center;
+
+}
+
+
+.nombre-carta strong {
+
+  display: block;
+
+  font-size: 13px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+}
+
+
+.nombre-carta small {
+
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 10px;
+
+  opacity: 0.9;
+
+}
+
+
+/* ==========================================
+   CARTA VOLTEADA
+========================================== */
+
+.carta.volteada .trasera {
+
+  transform:
+    rotateY(180deg);
+
+}
+
+
+.carta.volteada .frontal {
+
+  transform:
+    rotateY(0deg);
+
+}
+
+
+/* ==========================================
+   CARTA ENCONTRADA
+========================================== */
+
+.carta.encontrada {
+
+  cursor: default;
+
+}
+
+
+.carta.encontrada .frontal {
+
+  border: 4px solid #36a852;
+
+  box-shadow:
+    0 0 15px rgba(54, 168, 82, 0.55);
+
+}
+
+
+/* ==========================================
+   FONDO DEL MENSAJE GANADOR
+========================================== */
+
+.fondo-ganador {
+
+  position: fixed;
+
+  top: 0;
+
+  left: 0;
+
+  width: 100%;
+
+  height: 100%;
+
+  z-index: 100;
+
+  background:
+    rgba(0, 0, 0, 0.65);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+}
+
+
+/* ==========================================
+   MENSAJE GANADOR
+========================================== */
+
+.mensaje-ganador {
+
+  width: min(420px, 95%);
+
+  background: white;
+
+  border-radius: 20px;
+
+  padding: 35px;
+
+  text-align: center;
+
+  box-shadow:
+    0 15px 50px rgba(0, 0, 0, 0.35);
+
+  animation:
+    aparecer 0.4s ease;
+
+}
+
+
+@keyframes aparecer {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      scale(0.8);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      scale(1);
+
+  }
+
+}
+
+
+.trofeo {
+
+  font-size: 70px;
+
+  margin-bottom: 10px;
+
+}
+
+
+.mensaje-ganador h2 {
+
+  color: #713b1f;
+
+  font-size: 32px;
+
+  margin: 0 0 10px;
+
+}
+
+
+.mensaje-ganador p {
+
+  color: #666;
+
+  font-size: 16px;
+
+  line-height: 1.5;
+
+}
+
+
+/* ==========================================
+   RESULTADOS
+========================================== */
+
+.resultado {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 12px;
+
+  margin-top: 8px;
+
+  background: #f7f3ed;
+
+  border-radius: 8px;
+
+}
+
+
+.resultado span {
+
+  color: #666;
+
+  font-size: 14px;
+
+}
+
+
+.resultado strong {
+
+  color: #713b1f;
+
+  font-size: 18px;
+
+}
+
+
+/* ==========================================
+   BOTÓN JUGAR
+========================================== */
+
+.boton-jugar {
+
+  width: 100%;
+
+  margin-top: 20px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 14px;
+
+  background: #8b4513;
+
+  color: white;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+
+}
+
+
+.boton-jugar:hover {
+
+  background: #642e0d;
+
+}
+
+
+/* ==========================================
+   TABLET
+========================================== */
+
+@media (max-width: 700px) {
+
+  .encabezado-juego h1 {
+
+    font-size: 36px;
+
+  }
+
+
+  .descripcion {
+
+    font-size: 16px;
+
+  }
+
+
+  .tablero {
+
+    gap: 10px;
+
+  }
+
+
+  .trasera h3 {
+
+    font-size: 14px;
+
+  }
+
+
+  .logo-carta {
+
+    width: 45px;
+
+    height: 45px;
+
+    font-size: 24px;
+
+  }
+
+
+  .nombre-carta strong {
+
+    font-size: 10px;
+
+  }
+
+
+  .nombre-carta small {
+
+    font-size: 8px;
+
+  }
+
+}
+
+
+/* ==========================================
+   CELULAR
+========================================== */
+
+@media (max-width: 450px) {
+
+  .pagina-juego {
+
+    padding-bottom: 30px;
+
+  }
+
+
+  .encabezado-juego {
+
+    min-height: 250px;
+
+  }
+
+
+  .encabezado-juego h1 {
+
+    font-size: 28px;
+
+  }
+
+
+  .subtitulo {
+
+    font-size: 11px;
+
+  }
+
+
+  .descripcion {
+
+    font-size: 14px;
+
+  }
+
+
+  .panel-juego {
+
+    gap: 10px;
+
+    padding: 15px;
+
+  }
+
+
+  .estadistica {
+
+    min-width: 90px;
+
+  }
+
+
+  .estadistica strong {
+
+    font-size: 20px;
+
+  }
+
+
+  .tablero {
+
+    gap: 7px;
+
+  }
+
+
+  .trasera {
+
+    border-width: 2px;
+
+  }
+
+
+  .logo-carta {
+
+    width: 35px;
+
+    height: 35px;
+
+    font-size: 19px;
+
+    margin-bottom: 3px;
+
+  }
+
+
+  .trasera h3 {
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+
+  }
+
+
+  .trasera span {
+
+    font-size: 8px;
+
+  }
+
+
+  .frontal {
+
+    border-width: 2px;
+
+  }
+
+
+  .nombre-carta {
+
+    padding: 18px 3px 4px;
+
+  }
+
+
+  .nombre-carta strong {
+
+    font-size: 8px;
+
+  }
+
+
+  .nombre-carta small {
+
+    font-size: 7px;
+
+  }
+
+}

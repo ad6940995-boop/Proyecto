@@ -1,0 +1,287 @@
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f7f7f7;
+  color: #252525;
+}
+
+.pagina-comidas {
+  min-height: 100vh;
+  padding-bottom: 50px;
+  background-color: #14100d;
+}
+
+/* Encabezado */
+
+.encabezado {
+  padding: 60px 8%;
+  color: white;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.55),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url("https://sircinnamon.es/wp-content/uploads/2024/04/1.jpg")
+    center/cover;
+}
+
+.subtitulo {
+  margin: 0 0 10px;
+  color: #ffb703;
+  font-size: 17px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.encabezado h1 {
+  margin: 0 0 15px;
+  font-size: 42px;
+}
+
+.descripcion {
+  max-width: 580px;
+  margin: 0;
+  color: #eeeeee;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* Filtros */
+
+.filtros {
+  /* Apilar buscadores y luego las categorías */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.buscadores {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  flex-wrap: wrap;
+}
+
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 260px; /* crecer, encoger, ancho mínimo */
+  padding: 12px 14px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.buscador input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 15px;
+}
+
+.categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 0; /* ahora las categorías están en bloque aparte */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.categoria {
+  display: inline-block;
+  padding: 11px 20px;
+  border: 1px solid #dddddd;
+  border-radius: 25px;
+  background-color: white;
+  color: #555555;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.categoria:visited {
+  color: #555555;
+}
+
+.categoria:hover,
+.categoria.activa {
+  border-color: #f77f00;
+  background-color: #f77f00;
+  color: white;
+}
+
+/* Contenido */
+
+.contenido {
+  width: 84%;
+  margin: auto;
+}
+
+.grupo-comidas {
+  margin-top: 45px;
+}
+
+.titulo-categoria {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.titulo-categoria h2 {
+  margin: 0;
+  font-size: 27px;
+  color: #e76f00;
+}
+
+.titulo-categoria span {
+  color: #777777;
+  font-size: 14px;
+}
+
+/* Tarjetas */
+
+.grid-comidas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 25px;
+}
+
+.tarjeta-comida {
+  overflow: hidden;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.tarjeta-comida:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
+}
+
+.tarjeta-comida img {
+  display: block;
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+}
+
+.informacion-comida {
+  padding: 20px;
+}
+
+.etiqueta {
+  display: inline-block;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background-color: #fff1df;
+  color: #e76f00;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.informacion-comida h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+.ingredientes {
+  min-height: 42px;
+  margin: 0 0 20px;
+  color: #777777;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.parte-inferior {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.precio {
+  color: #f77f00;
+  font-size: 21px;
+}
+
+.boton-ver {
+  padding: 9px 14px;
+  border: none;
+  border-radius: 7px;
+  background-color: #252525;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s;
+}
+
+.boton-ver:hover {
+  background-color: #f77f00;
+}
+
+.boton-arriba {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background-color: #f77f00;
+  color: white;
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.boton-arriba:hover {
+  background-color: #252525;
+  transform: translateY(-3px);
+}
+
+/* Diseño responsive */
+
+@media (max-width: 700px) {
+  .encabezado {
+    padding: 45px 7%;
+  }
+
+  .encabezado h1 {
+    font-size: 32px;
+  }
+
+  .filtros,
+  .contenido {
+    width: 90%;
+  }
+
+  .titulo-categoria {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tarjeta-comida img {
+    height: 190px;
+  }
+}
